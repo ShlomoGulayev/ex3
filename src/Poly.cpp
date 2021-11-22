@@ -80,3 +80,19 @@ ostream& operator<<(ostream& os, const Poly& poly)
 	}
 	return os;
 }
+
+//-----------------------------------------------------------------------------
+
+bool operator==(const Poly& p1, const Poly& p2)
+{
+	if (p1.getPowerHead() == p2.getPowerHead())
+		return true;
+	return false;
+}
+
+//-----------------------------------------------------------------------------
+
+bool operator!=(const Poly& p1, const Poly& p2)
+{
+	return !(p1 == p2);
+}

@@ -31,3 +31,5 @@ private:
 };
 
 ostream& operator<<(ostream& os, const Poly& poly);
+bool operator==(const Poly& p1, const Poly& p2);
+bool operator!=(const Poly& p1, const Poly& p2);
