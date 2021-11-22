@@ -2,90 +2,107 @@
 #include "Rational.h"
 
 
-
+//-----------------------------------------------------------------------------
 Rational::Rational()
 	:m_numerator(0), m_denumerator(1)
 {}
-
 //-----------------------------------------------------------------------------
-
 Rational::Rational(int numerator, int denumerator)
+	:m_numerator(numerator), m_denumerator(denumerator)
 {
-	if ((denumerator < 0 && numerator > 0) || 
-		(denumerator < 0 && numerator < 0))
+	setRational(numerator, denumerator);
+}
+//-----------------------------------------------------------------------------
+Rational::Rational(const int Z)
+	:m_numerator(Z), m_denumerator(1)
+{}
+//-----------------------------------------------------------------------------
+Rational::Rational(const Rational& r)
+	: m_numerator(r.get_numerator()), m_denumerator(r.get_denumerator())
+{}
+//-----------------------------------------------------------------------------
+Rational& Rational::operator=(const Rational& other)
+{
+	if (this == &other)
+		return *this;
+	m_numerator = other.get_numerator();
+	m_denumerator = other.get_denumerator();
+	return *this;
+}
+//-----------------------------------------------------------------------------
+int Rational::get_numerator() const
+{
+	return m_numerator;
+}
+
+//-----------------------------------------------------------------------------
+int Rational::get_denumerator() const
+{
+	return m_denumerator;
+}
+//-----------------------------------------------------------------------------
+void Rational::setRational(int numerator, int denumerator)
+{
+	if ((numerator > 0 && denumerator < 0) ||
+		(numerator < 0 && denumerator < 0))
 	{
-		denumerator = denumerator * (-1);
-		numerator = numerator * (-1);
+		numerator *= -1;
+		denumerator *= -1;
 	}
-	int div = find_biggest_divider(numerator, denumerator);
-	divide(numerator, denumerator, div);
-	m_numerator = numerator;
-	m_denumerator = denumerator;
-}
 
+	m_numerator  = (denumerator == 0) ? 0 : numerator;
+	m_denumerator  = (denumerator == 0) ? 1 : denumerator;
+	minimize();
+}
 //-----------------------------------------------------------------------------
-
-void Rational::set_numerator(int numerator)
+void Rational::minimize()
 {
-	m_numerator = numerator;
+	int smaller = (abs(m_numerator) < abs(m_denumerator)) ? m_numerator : m_denumerator;
+	while (smaller > 1)
+	{
+		if (m_numerator % smaller == 0 && m_denumerator % smaller == 0)
+		{
+			m_numerator/= smaller;
+			m_denumerator/= smaller;
+			break;
+		}
+		smaller--;
+	}
 }
-
-//-----------------------------------------------------------------------------
-
-void Rational::set_denumerator(int denumerator)
-{
-	m_denumerator = denumerator;
-}
-
 //-----------------------------------------------------------------------------
 
 Rational operator+(const Rational& r1, const Rational& r2)
 {
-	int num = r1.get_numerator() * r2.get_denumerator() + 
+	int numerator = r1.get_numerator() * r2.get_denumerator() + 
 			  r2.get_numerator() * r1.get_denumerator();
-	int denum = r1.get_denumerator() * r2.get_denumerator();
-	int div = find_biggest_divider(num, denum);
-	divide(num, denum, div);
-
-	return Rational(num, denum);
-
+	int denumerator = r1.get_denumerator() * r2.get_denumerator();
+	return Rational(numerator, denumerator);
 }
 
 //-----------------------------------------------------------------------------
-
 Rational operator-(const Rational& r1, const Rational& r2)
 {
-	int num = r1.get_numerator() * r2.get_denumerator() -
+	int numerator = r1.get_numerator() * r2.get_denumerator() -
 		r2.get_numerator() * r1.get_denumerator();
-	int denum = r1.get_denumerator() * r2.get_denumerator();
-	int div = find_biggest_divider(num, denum);
-	divide(num, denum, div);
-
-	return Rational(num, denum);
+	int denumerator = r1.get_denumerator() * r2.get_denumerator();
+	return Rational(numerator, denumerator);
 }
-
 //-----------------------------------------------------------------------------
 
 Rational operator*(const Rational& r1, const Rational& r2)
 {
-	int num = r1.get_numerator() * r2.get_numerator();
-	int denum = r1.get_denumerator() * r2.get_denumerator();
-	int div = find_biggest_divider(num, denum);
-	divide(num, denum, div);
-
-	return Rational(num, denum);
+	int numerator = r1.get_numerator() * r2.get_numerator();
+	int denumerator = r1.get_denumerator() * r2.get_denumerator();
+	return Rational(numerator, denumerator);
 }
 
 //-----------------------------------------------------------------------------
 
 Rational operator/(const Rational& r1, const Rational& r2)
 {
-	int num = r1.get_numerator() * r2.get_denumerator();
-	int denum = r1.get_denumerator() * r2.get_numerator();
-	int div = find_biggest_divider(num, denum);
-	divide(num, denum, div);
-
-	return Rational(num, denum);
+	int numerator = r1.get_numerator() * r2.get_denumerator();
+	int denumerator = r1.get_denumerator() * r2.get_numerator();
+	return Rational(numerator, denumerator);
 }
 
 //-----------------------------------------------------------------------------
@@ -100,67 +117,40 @@ ostream& operator<<(ostream& os, const Rational& r)
 
 istream& operator>>(istream& is, Rational& r)
 {
-	int num, denum;
-	is >> num;
+	int numerator, denumerator;
+	is >> numerator;
 	is.ignore(1);
-	is >> denum;
-	r.set_numerator(num);
-	r.set_denumerator(denum);
+	is >> denumerator;
+	r.setRational(numerator, denumerator);
 	return is;
 }
 
 //-----------------------------------------------------------------------------
 
-Rational operator+=(Rational& r1, const Rational& r2)
+Rational& operator+=(Rational &r1, const Rational& r2)
 {
-	int num = r1.get_numerator() * r2.get_denumerator() + 
-			  r2.get_numerator() * r1.get_denumerator();
-	int denum = r1.get_denumerator() * r2.get_denumerator();
-	int div = find_biggest_divider(num, denum);
-	divide(num, denum, div);
-	r1.set_numerator(num);
-	r1.set_denumerator(denum);
-	return r1;
+	return r1 = r1 + r2;
 }
 
 //-----------------------------------------------------------------------------
 
-Rational operator-=(Rational& r1, const Rational& r2)
+Rational& operator-=(Rational& r1, const Rational& r2)
 {
-	int num = r1.get_numerator() * r2.get_denumerator() -
-		r2.get_numerator() * r1.get_denumerator();
-	int denum = r1.get_denumerator() * r2.get_denumerator();
-	int div = find_biggest_divider(num, denum);
-	divide(num, denum, div);
-	r1.set_numerator(num);
-	r1.set_denumerator(denum);
-	return r1;
+	return r1 = r1 - r2;
 }
 
 //-----------------------------------------------------------------------------
 
-Rational operator/=(Rational& r1, const Rational& r2)
+Rational& operator/=(Rational& r1, const Rational& r2)
 {
-	int num = r1.get_numerator() * r2.get_denumerator();
-	int denum = r1.get_denumerator() * r2.get_numerator();
-	int div = find_biggest_divider(num, denum);
-	divide(num, denum, div);
-	r1.set_numerator(num);
-	r1.set_denumerator(denum);
-	return r1;
+	return r1 = r1 / r2;
 }
 
 //-----------------------------------------------------------------------------
 
-Rational operator*=(Rational& r1, const Rational& r2)
+Rational& operator*=(Rational& r1, const Rational& r2)
 {
-	int num = r1.get_numerator() * r2.get_numerator();
-	int denum = r1.get_denumerator() * r2.get_denumerator();
-	int div = find_biggest_divider(num, denum);
-	divide(num, denum, div);
-	r1.set_numerator(num);
-	r1.set_denumerator(denum);
-	return r1;
+	return r1 = r1 * r2;
 }
 
 //-----------------------------------------------------------------------------
@@ -179,18 +169,18 @@ Rational operator+(const Rational& r)
 
 //-----------------------------------------------------------------------------
 
-void operator++(Rational& r, int)
+Rational operator++(Rational& r, int)
 {
 	Rational r1(1, 1);
-	r += r1;
+	return r += r1;
 }
 
 //-----------------------------------------------------------------------------
 
-void operator--(Rational& r, int)
+Rational operator--(Rational& r, int)
 {
 	Rational r1(1, 1);
-	r -= r1;
+	return r -= r1;
 }
 
 //-----------------------------------------------------------------------------
@@ -234,43 +224,9 @@ bool operator>(const Rational& r1, const Rational& r2)
 
 //-----------------------------------------------------------------------------
 
-bool operator<(const Rational& r1, const Rational& r2)
+bool operator < (const Rational& r1, const Rational& r2)
 {
 	return(r1.get_numerator() / r1.get_denumerator() <
 		r2.get_numerator() / r2.get_denumerator());
 }
 
-//-----------------------------------------------------------------------------
-int Rational::get_numerator() const
-{
-	return m_numerator;
-}
-
-//-----------------------------------------------------------------------------
-
-int Rational::get_denumerator() const
-{
-	return m_denumerator;
-}
-
-//-----------------------------------------------------------------------------
-
-int find_biggest_divider(int num, int denum)
-{
-	int div = abs(num);
-	while (div > 1)
-	{
-		if (num % div == 0 && denum % div == 0)
-			return div;
-		div--;
-	}
-	return 1;
-}
-
-//-----------------------------------------------------------------------------
-
-void divide(int& num, int& denum, const int div)
-{
-	num /= div;
-	denum /= div;
-}

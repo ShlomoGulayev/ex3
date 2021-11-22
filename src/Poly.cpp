@@ -2,39 +2,81 @@
 
 #include "Poly.h"
 
+//-----------------------------------------------------------------------------
 Poly::Poly()
 {
-	m_length = 1;
-	m_list = new (nothrow) Node;
-	m_list -> _power = 0;
-	m_list -> _next = NULL;
+	m_list.insertFirst(Rational(0,1), -1);
+	m_size = m_list.getSize();
 }
-
 //-----------------------------------------------------------------------------
-
-Poly::Poly(int pow, Rational r)
+Poly::Poly(const Rational scalar)
 {
-	m_length = 1;
-	m_list = new (nothrow) Node;
-	m_list->_next = NULL;
-	m_list->_power = pow;
-	m_list->_rational = r;
+	int power = (scalar == Rational(0, 1)) ? -1 : 0;
+	m_list.insertFirst(scalar, power);
+	m_size = m_list.getSize();
 }
-
 //-----------------------------------------------------------------------------
-
-Poly::Poly(Rational r)
+Poly::Poly(const Rational scalar, int power)
 {
-	m_length = 1;
-	m_list = new (nothrow) Node;
-	m_list->_next = NULL;
-	m_list->_power = 1;
-	m_list->_rational = r;
+	power = (scalar == Rational(0, 1)) ? -1 : power;
+	m_list.insertFirst(scalar, power);
+	m_size = m_list.getSize();
 }
-
 //-----------------------------------------------------------------------------
-
-int Poly::get_power()
+Poly::Poly(const std::vector<Rational>& vec)
 {
-	return m_list->_power;
+	int power = 0;
+	for (int i = vec.size() - 1; i >=0 ; i--)
+	{
+		if (vec[i].get_numerator() != 0)
+			m_list.insertFirst(vec[i], power);
+		power++;
+	}
+	m_size = vec.size();
+}
+//-----------------------------------------------------------------------------
+Poly::Poly(const Poly& polynom)
+	:m_list(polynom.m_list), m_size(polynom.m_size)
+{}
+//-----------------------------------------------------------------------------
+unsigned int Poly::getSize() const
+{
+	return m_size;
+}
+//-----------------------------------------------------------------------------
+int Poly::getPowerHead() const
+{
+	return m_list.getPowerHead();
+}
+//-----------------------------------------------------------------------------
+ Rational Poly::getRational(const int power) const
+{
+	return m_list.getRational(power);
+}
+//-----------------------------------------------------------------------------
+bool Poly::isPowerInList(const int index) const
+{
+	return m_list.isPowerInList(index);
+}
+//-----------------------------------------------------------------------------
+bool Poly::isLastNode(const int power) const
+{
+	return m_list.isLastNode(power);
+}
+//-----------------------------------------------------------------------------
+ostream& operator<<(ostream& os, const Poly& poly)
+{
+	for (int i = poly.getPowerHead(); i >= -1; i--)
+	{
+		if (poly.isPowerInList(i))
+		{
+			if (i <= 0)
+				os << poly.getRational(i);
+			else if (poly.isLastNode(i))
+				os <<poly.getRational(i) << "X^" << i;
+			else
+				os << poly.getRational(i) << "X^" << i << " + ";
+		}
+	}
+	return os;
 }

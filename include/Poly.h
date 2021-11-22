@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "List.h"
 #include "Rational.h"
 
@@ -13,10 +14,20 @@ class Poly
 {
 public:
 	Poly();
-	Poly(Rational r);
-	Poly(int pow, Rational r);
-	int get_power();
+	Poly(const std::vector<Rational>&);
+	Poly(const Rational scalar);
+	Poly(const Rational scalar, int power);
+	Poly(const Poly& polynom);
+	
+	int getPowerHead() const;
+	Rational getRational(const int power) const;
+	bool isPowerInList(const int index) const;
+	bool isLastNode(const int power) const;
+	unsigned int getSize() const;
+
 private:
-	int m_length;
-	Node* m_list;
+	List m_list;
+	unsigned int m_size;
 };
+
+ostream& operator<<(ostream& os, const Poly& poly);
