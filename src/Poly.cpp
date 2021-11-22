@@ -5,32 +5,32 @@
 //-----------------------------------------------------------------------------
 Poly::Poly()
 {
-	m_list.insertFirst(Rational(0,1), -1);
+	m_list.insert(Rational(0,1), -1);
 	m_size = m_list.getSize();
 }
 //-----------------------------------------------------------------------------
 Poly::Poly(const Rational scalar)
 {
 	int power = (scalar == Rational(0, 1)) ? -1 : 0;
-	m_list.insertFirst(scalar, power);
+	m_list.insert(scalar, power);
 	m_size = m_list.getSize();
 }
 //-----------------------------------------------------------------------------
 Poly::Poly(const Rational scalar, int power)
 {
 	power = (scalar == Rational(0, 1)) ? -1 : power;
-	m_list.insertFirst(scalar, power);
+	m_list.insert(scalar, power);
 	m_size = m_list.getSize();
 }
 //-----------------------------------------------------------------------------
 Poly::Poly(const std::vector<Rational>& vec)
 {
-	int power = 0;
-	for (int i = vec.size() - 1; i >=0 ; i--)
+	int power = vec.size()-1;
+	for (int i = 0; i < vec.size() ; i++)
 	{
 		if (vec[i].get_numerator() != 0)
-			m_list.insertFirst(vec[i], power);
-		power++;
+			m_list.insert(vec[i], power);
+		power--;
 	}
 	m_size = vec.size();
 }

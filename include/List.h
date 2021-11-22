@@ -13,7 +13,7 @@ class List {
 public:
 	List();
 	List(const List& other);
-	void insertFirst(const Rational r, const int power);
+	void insert(const Rational r, const int power);
 	
 	bool isPowerInList(const int index) const;
 	Rational getRational(int power) const;

@@ -13,49 +13,32 @@ List::List()
 	:m_head(nullptr), m_size(0)
 {}
 //-----------------------------------------------------------------------------
-void List::insertFirst(const Rational r, const int power)
+void List::insert(const Rational r, const int power)
 {
-	m_head = new Node(r, power, m_head);
+	if (m_head == nullptr)
+		m_head = new Node(r, power, nullptr);
+	else
+	{
+		Node* tmp = m_head;
+		while (tmp->m_next != nullptr)
+		{
+			tmp = tmp->m_next;
+		}
+		tmp->m_next = new Node(r, power, nullptr);
+	}
 	m_size++;
 }
 //-----------------------------------------------------------------------------
 List::List(const List& other)
+	:m_head(nullptr), m_size(0)
 {
-	/*
-	Node* tmp_head = other.m_head;
-	bool first_time = true;
-	Node* runner;
-	while (tmp_head != nullptr)
-	{
-		Node* new_node = new Node(tmp_head->m_rational, tmp_head->m_power, nullptr);
-		if (first_time)
-		{
-			runner = m_head;
-		}
-		runner = new_node;
-		runner = runner->m_next;
-		tmp_head = tmp_head->m_next;
-	}
-	m_size = other.m_size;
-	*/
-	
 	Node* tmp = other.m_head;
-	for (int i = 0; i < other.m_size; i++)
+	
+	while (tmp != nullptr)
 	{
-		insertFirst(tmp->m_rational, tmp->m_power);
+		insert(tmp->m_rational, tmp->m_power);
 		tmp = tmp->m_next;
 	}
-	
-	//flips the list
-	Node *current = m_head, *next = nullptr, *prev = nullptr;
-	while (current != nullptr)
-	{
-		next = current->m_next;
-		current->m_next = prev;
-		prev = current;
-		current = next;
-	}
-	m_head = prev;
 	
 	m_size = other.m_size;
 	
