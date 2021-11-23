@@ -3,12 +3,14 @@
 #include "Poly.h"
 
 //-----------------------------------------------------------------------------
+//Poly constructor
 Poly::Poly()
 {
 	m_list.insert(Rational(0,1), -1);
 	m_size = m_list.getSize();
 }
 //-----------------------------------------------------------------------------
+//Poly constructor
 Poly::Poly(const Rational scalar)
 {
 	int power = (scalar == Rational(0, 1)) ? -1 : 0;
@@ -16,6 +18,7 @@ Poly::Poly(const Rational scalar)
 	m_size = m_list.getSize();
 }
 //-----------------------------------------------------------------------------
+//Poly constructor
 Poly::Poly(const Rational scalar, int power)
 {
 	power = (scalar == Rational(0, 1)) ? -1 : power;
@@ -23,6 +26,7 @@ Poly::Poly(const Rational scalar, int power)
 	m_size = m_list.getSize();
 }
 //-----------------------------------------------------------------------------
+//Poly constructor
 Poly::Poly(const std::vector<Rational>& vec)
 {
 	int power = vec.size()-1;
@@ -35,10 +39,12 @@ Poly::Poly(const std::vector<Rational>& vec)
 	m_size = vec.size();
 }
 //-----------------------------------------------------------------------------
+//Poly constructor
 Poly::Poly(const Poly& polynom)
 	:m_list(polynom.m_list), m_size(polynom.m_size)
 {}
 //-----------------------------------------------------------------------------
+//operator - (p1 = p2)
 Poly& Poly::operator=(const Poly& polynom)
 {
 	if (this == &polynom)
@@ -53,44 +59,51 @@ Poly& Poly::operator=(const Poly& polynom)
 	m_size = polynom.m_size;
 }
 //-----------------------------------------------------------------------------
+//returns the size of the lists
 unsigned int Poly::getSize() const
 {
 	return m_size;
 }
 //-----------------------------------------------------------------------------
+//returns the degree of the Poly
 int Poly::getDeg() const
 {
 	return m_list.getPowerHead();
 }
 //-----------------------------------------------------------------------------
+//returns the Rational of a given Power
  Rational Poly::getRational(const int power) const
 {
 	return m_list.getRational(power);
 }
 //-----------------------------------------------------------------------------
-
+ //returns the Power of a given Rational
 int Poly::getPower(const Rational r) const
 {
 	return m_list.getPower(r);
 }
 
 //-----------------------------------------------------------------------------
+//checks if a given Power is in the List
 bool Poly::isPowerInList(const int index) const
 {
 	return m_list.isPowerInList(index);
 }
 
 //-----------------------------------------------------------------------------
+//checks if a given Rational is in the List
 bool Poly::isRationalInList(const Rational r) const
 {
 	return m_list.isRationalInList(r);
 }
 //-----------------------------------------------------------------------------
+//checks if a Node of a given Power is the last
 bool Poly::isLastNode(const int power) const
 {
 	return m_list.isLastNode(power);
 }
 //-----------------------------------------------------------------------------
+//operator << (output)
 ostream& operator<<(ostream& os, const Poly& poly)
 {
 	for (int i = poly.getDeg(); i >= -1; i--)
@@ -109,7 +122,7 @@ ostream& operator<<(ostream& os, const Poly& poly)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator == (boolean check if p1 = p2)
 bool operator==(const Poly& p1, const Poly& p2)
 {
 	if (p1.getDeg() == p2.getDeg())
@@ -118,23 +131,23 @@ bool operator==(const Poly& p1, const Poly& p2)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator != (boolean check if p1 != p2)
 bool operator!=(const Poly& p1, const Poly& p2)
 {
 	return !(p1 == p2);
 }
 
 //-----------------------------------------------------------------------------
-
+//operator < (boolean check if p1 degree < p2 degree)
 bool operator<(const Poly& p1, const Poly& p2)
 {
-	if (p1.getPowerHead() < p2.getPowerHead())
+	if (p1.getDeg() < p2.getDeg())
 		return true;
 	return false;
 }
 
 //-----------------------------------------------------------------------------
-
+//operator <= (boolean check if p1 degree <= p2 degree)
 bool operator<=(const Poly& p1, const Poly& p2)
 {
 	if (p1 < p2 || p1 == p2)
@@ -143,7 +156,7 @@ bool operator<=(const Poly& p1, const Poly& p2)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator > (boolean check if p1 degree > p2 degree)
 bool operator>(const Poly& p1, const Poly& p2)
 {
 	if (!(p1 <= p2))
@@ -152,7 +165,7 @@ bool operator>(const Poly& p1, const Poly& p2)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator >= (boolean check if p1 degree >= p2 degree)
 bool operator>=(const Poly& p1, const Poly& p2)
 {
 	if (!(p1 < p2))
@@ -161,7 +174,7 @@ bool operator>=(const Poly& p1, const Poly& p2)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator [] (returns the Rational of a given Power)
 Rational Poly::operator[](int power)
 {
 	if (m_list.isPowerInList(power))
@@ -169,17 +182,6 @@ Rational Poly::operator[](int power)
 		return m_list.getRational(power);
 	}
 	return Rational();
-}
-
-//-----------------------------------------------------------------------------
-
-Rational Poly::operator()(Rational r)
-{
-	if (m_list.isRationalInList(r))
-	{
-		return m_list.getPower(r);
-	}
-	return 0;
 }
 
 //-----------------------------------------------------------------------------

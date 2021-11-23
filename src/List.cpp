@@ -5,14 +5,17 @@ using std::cout;
 
 
 //-----------------------------------------------------------------------------
+//List constructor
 Node::Node(const Rational r, const int power, Node* next)
 	:m_rational(r), m_power(power), m_next(next)
 {}
 //-----------------------------------------------------------------------------
+//List constructor
 List::List()
 	:m_head(nullptr), m_size(0)
 {}
 //-----------------------------------------------------------------------------
+//insert a Rational value to the list
 void List::insert(const Rational r, const int power)
 {
 	if (m_head == nullptr)
@@ -29,6 +32,7 @@ void List::insert(const Rational r, const int power)
 	m_size++;
 }
 //-----------------------------------------------------------------------------
+//List copy constructor
 List::List(const List& other)
 	:m_head(nullptr), m_size(0)
 {
@@ -44,11 +48,13 @@ List::List(const List& other)
 	
 }
 //-----------------------------------------------------------------------------
+//get the size of the list
 unsigned int List::getSize() const
 {
 	return m_size;
 }
 //-----------------------------------------------------------------------------
+//checks if a given Power is in the List
 bool List::isPowerInList(const int power) const
 {
 	Node* tmp = m_head;
@@ -62,6 +68,7 @@ bool List::isPowerInList(const int power) const
 }
 
 //-----------------------------------------------------------------------------
+//checks if a given Rational is in the List
 bool List::isRationalInList(const Rational r) const
 {
 	Node* tmp = m_head;
@@ -74,7 +81,7 @@ bool List::isRationalInList(const Rational r) const
 	return false;
 }
 //-----------------------------------------------------------------------------
-
+//returns the Rational of a given Power
 Rational List::getRational(int power) const
 {
 	if (isPowerInList(power))
@@ -91,7 +98,7 @@ Rational List::getRational(int power) const
 }
 
 //-----------------------------------------------------------------------------
-
+//returns the Power of a given Rational
 int List::getPower(Rational r) const
 {
 	Node* tmp = m_head;
@@ -105,11 +112,13 @@ int List::getPower(Rational r) const
 }
 
 //-----------------------------------------------------------------------------
+//returns the degree of the Poly
 int List::getPowerHead() const
 {
 	return m_head->m_power;
 }
 //-----------------------------------------------------------------------------
+//List destructor
 List::~List()
 {
 	while (m_head != nullptr)
@@ -120,6 +129,7 @@ List::~List()
 	}
 }
 //-----------------------------------------------------------------------------
+//checks if a given Node is the last one
 bool List::isLastNode(const int power) const
 {
 	Node* tmp = m_head;

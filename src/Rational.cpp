@@ -3,16 +3,19 @@
 
 
 //-----------------------------------------------------------------------------
+//Rational constructor 
 Rational::Rational(int numerator, int denumerator)
 	:m_numerator(numerator), m_denumerator(denumerator)
 {
 	setRational(numerator, denumerator);
 }
 //-----------------------------------------------------------------------------
+//Rational copy constructor 
 Rational::Rational(const Rational& r)
 	: m_numerator(r.get_numerator()), m_denumerator(r.get_denumerator())
 {}
 //-----------------------------------------------------------------------------
+//operator = (r1 = r2)
 Rational& Rational::operator=(const Rational& other)
 {
 	if (this == &other)
@@ -22,17 +25,19 @@ Rational& Rational::operator=(const Rational& other)
 	return *this;
 }
 //-----------------------------------------------------------------------------
+//returns the numerator
 int Rational::get_numerator() const
 {
 	return m_numerator;
 }
-
 //-----------------------------------------------------------------------------
+//returns the denumerator
 int Rational::get_denumerator() const
 {
 	return m_denumerator;
 }
 //-----------------------------------------------------------------------------
+//set Rational values (also changes numerator to be negative instead of denumerator
 void Rational::setRational(int numerator, int denumerator)
 {
 	if ((numerator > 0 && denumerator < 0) ||
@@ -47,6 +52,7 @@ void Rational::setRational(int numerator, int denumerator)
 	minimize();
 }
 //-----------------------------------------------------------------------------
+//finds the bigest divider and minimize the rational
 void Rational::minimize()
 {
 	int smaller = (abs(m_numerator) < abs(m_denumerator)) ? m_numerator : m_denumerator;
@@ -62,7 +68,7 @@ void Rational::minimize()
 	}
 }
 //-----------------------------------------------------------------------------
-
+//operator + (r1 + r2)
 Rational operator+(const Rational& r1, const Rational& r2)
 {
 	int numerator = r1.get_numerator() * r2.get_denumerator() + 
@@ -72,6 +78,7 @@ Rational operator+(const Rational& r1, const Rational& r2)
 }
 
 //-----------------------------------------------------------------------------
+//operator - (r1 - r2)
 Rational operator-(const Rational& r1, const Rational& r2)
 {
 	int numerator = r1.get_numerator() * r2.get_denumerator() -
@@ -80,7 +87,7 @@ Rational operator-(const Rational& r1, const Rational& r2)
 	return Rational(numerator, denumerator);
 }
 //-----------------------------------------------------------------------------
-
+//operator * (r1 * r2)
 Rational operator*(const Rational& r1, const Rational& r2)
 {
 	int numerator = r1.get_numerator() * r2.get_numerator();
@@ -89,7 +96,7 @@ Rational operator*(const Rational& r1, const Rational& r2)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator / (r1 / r2)
 Rational operator/(const Rational& r1, const Rational& r2)
 {
 	int numerator = r1.get_numerator() * r2.get_denumerator();
@@ -98,7 +105,7 @@ Rational operator/(const Rational& r1, const Rational& r2)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator << (output)
 ostream& operator<<(ostream& os, const Rational& r)
 {
 	os << r.get_numerator() << "/" << r.get_denumerator();
@@ -106,7 +113,7 @@ ostream& operator<<(ostream& os, const Rational& r)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator >> (input)
 istream& operator>>(istream& is, Rational& r)
 {
 	int numerator, denumerator;
@@ -118,49 +125,49 @@ istream& operator>>(istream& is, Rational& r)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator += (r1 += r2)
 Rational& operator+=(Rational &r1, const Rational& r2)
 {
 	return r1 = r1 + r2;
 }
 
 //-----------------------------------------------------------------------------
-
+//operator -= (r1 -= r2)
 Rational& operator-=(Rational& r1, const Rational& r2)
 {
 	return r1 = r1 - r2;
 }
 
 //-----------------------------------------------------------------------------
-
+//operator /= (r1 /= r2)
 Rational& operator/=(Rational& r1, const Rational& r2)
 {
 	return r1 = r1 / r2;
 }
 
 //-----------------------------------------------------------------------------
-
+//operator *= (r1 *= r2)
 Rational& operator*=(Rational& r1, const Rational& r2)
 {
 	return r1 = r1 * r2;
 }
 
 //-----------------------------------------------------------------------------
-
+//operator - (r1-> -r1)
 Rational operator-(const Rational& r)
 {
 	return Rational(-r.get_numerator(), r.get_denumerator());
 }
 
 //-----------------------------------------------------------------------------
-
+//operator + (r1-> abs r2)
 Rational operator+(const Rational& r)
 {
 	return Rational(abs(r.get_numerator()), r.get_denumerator());
 }
 
 //-----------------------------------------------------------------------------
-
+//operator ++ (r1-> r1 + 1)
 Rational operator++(Rational& r, int)
 {
 	Rational r1(1, 1);
@@ -168,7 +175,7 @@ Rational operator++(Rational& r, int)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator -- (r1-> r1 - 1)
 Rational operator--(Rational& r, int)
 {
 	Rational r1(1, 1);
@@ -176,7 +183,7 @@ Rational operator--(Rational& r, int)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator == (boolean check if r1 = r2)
 bool operator==(const Rational& r1, const Rational& r2)
 {
 	return(r1.get_numerator() / r1.get_denumerator() ==
@@ -184,14 +191,14 @@ bool operator==(const Rational& r1, const Rational& r2)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator != (boolean check if r1 != r2)
 bool operator!=(const Rational& r1, const Rational& r2)
 {
 	return(!(r1 == r2));
 }
 
 //-----------------------------------------------------------------------------
-
+//operator <= (boolean check if r1 <= r2)
 bool operator<=(const Rational& r1, const Rational& r2)
 {
 	return(r1.get_numerator() / r1.get_denumerator() <=
@@ -199,7 +206,7 @@ bool operator<=(const Rational& r1, const Rational& r2)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator >= (boolean check if r1 >= r2)
 bool operator>=(const Rational& r1, const Rational& r2)
 {
 	return(r1.get_numerator() / r1.get_denumerator() >=
@@ -207,7 +214,7 @@ bool operator>=(const Rational& r1, const Rational& r2)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator > (boolean check if r1 > r2)
 bool operator>(const Rational& r1, const Rational& r2)
 {
 	return(r1.get_numerator() / r1.get_denumerator() >
@@ -215,7 +222,7 @@ bool operator>(const Rational& r1, const Rational& r2)
 }
 
 //-----------------------------------------------------------------------------
-
+//operator < (boolean check if r1 < r2)
 bool operator < (const Rational& r1, const Rational& r2)
 {
 	return(r1.get_numerator() / r1.get_denumerator() <
