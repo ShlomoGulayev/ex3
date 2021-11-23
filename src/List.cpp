@@ -5,7 +5,7 @@ using std::cout;
 
 
 //-----------------------------------------------------------------------------
-Node::Node(const Rational r, const int power, Node* next)
+Node::Node(const Rational& r, const int power, Node* next)
 	:m_rational(r), m_power(power), m_next(next)
 {}
 //-----------------------------------------------------------------------------
@@ -13,7 +13,7 @@ List::List()
 	:m_head(nullptr), m_size(0)
 {}
 //-----------------------------------------------------------------------------
-void List::insert(const Rational r, const int power)
+void List::insert(const Rational& r, const int power)
 {
 	if (m_head == nullptr)
 		m_head = new Node(r, power, nullptr);
@@ -60,22 +60,8 @@ bool List::isPowerInList(const int power) const
 	}
 	return false;
 }
-
 //-----------------------------------------------------------------------------
-bool List::isRationalInList(const Rational r) const
-{
-	Node* tmp = m_head;
-	while (tmp != nullptr)
-	{
-		if (tmp->m_rational == r)
-			return true;
-		tmp = tmp->m_next;
-	}
-	return false;
-}
-//-----------------------------------------------------------------------------
-
-Rational List::getRational(int power) const
+Rational List::getRational(const int power) const
 {
 	if (isPowerInList(power))
 	{
@@ -88,20 +74,6 @@ Rational List::getRational(int power) const
 		}
 	}
 	return Rational();
-}
-
-//-----------------------------------------------------------------------------
-
-int List::getPower(Rational r) const
-{
-	Node* tmp = m_head;
-	while (tmp != nullptr)
-	{
-		if (r == tmp->m_rational)
-			return tmp->m_power;
-		tmp = tmp->m_next;
-	}
-	return 0;
 }
 
 //-----------------------------------------------------------------------------

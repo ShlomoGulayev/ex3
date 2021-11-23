@@ -6,12 +6,12 @@ using std::istream;
 class Rational
 {
 public:
-	Rational(int numerator = 0, int denumenator = 1) ;
+	Rational(const int numerator = 0, const int denumenator = 1) ;
 	Rational(const Rational& r);
 	Rational& operator=(const Rational& r2);
 	int get_numerator() const;
 	int get_denumerator() const;
-	void setRational(int numerator, int denumerator);
+	void setRational(const int numerator, const int denumerator);
 
 private:
 	int m_numerator;
