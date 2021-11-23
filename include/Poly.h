@@ -18,7 +18,7 @@ public:
 	Poly(const Rational scalar);
 	Poly(const Rational scalar, int power);
 	Poly(const Poly& polynom);
-	
+	Poly& operator=(const Poly& polinom);
 	int getPowerHead() const;
 	Rational getRational(const int power) const;
 	bool isPowerInList(const int index) const;
@@ -33,3 +33,4 @@ private:
 ostream& operator<<(ostream& os, const Poly& poly);
 bool operator==(const Poly& p1, const Poly& p2);
 bool operator!=(const Poly& p1, const Poly& p2);
+

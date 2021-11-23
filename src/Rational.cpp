@@ -3,19 +3,11 @@
 
 
 //-----------------------------------------------------------------------------
-Rational::Rational()
-	:m_numerator(0), m_denumerator(1)
-{}
-//-----------------------------------------------------------------------------
 Rational::Rational(int numerator, int denumerator)
 	:m_numerator(numerator), m_denumerator(denumerator)
 {
 	setRational(numerator, denumerator);
 }
-//-----------------------------------------------------------------------------
-Rational::Rational(const int Z)
-	:m_numerator(Z), m_denumerator(1)
-{}
 //-----------------------------------------------------------------------------
 Rational::Rational(const Rational& r)
 	: m_numerator(r.get_numerator()), m_denumerator(r.get_denumerator())

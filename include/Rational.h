@@ -1,14 +1,12 @@
 #pragma once
 
 using std::ostream;
-using std::istream;
+using std::istream; 
 
 class Rational
 {
 public:
-	Rational();
-	Rational(const int Z);
-	Rational(int numerator, int denumenator);
+	Rational(int numerator = 0, int denumenator = 1) ;
 	Rational(const Rational& r);
 	Rational& operator=(const Rational& r2);
 	int get_numerator() const;
