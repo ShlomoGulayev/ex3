@@ -5,8 +5,12 @@ using std::cout;
 
 
 //-----------------------------------------------------------------------------
+<<<<<<< HEAD
 //List constructor
 Node::Node(const Rational r, const int power, Node* next)
+=======
+Node::Node(const Rational& r, const int power, Node* next)
+>>>>>>> 673013b522efc255a2a211ec246c8bb3802a0d71
 	:m_rational(r), m_power(power), m_next(next)
 {}
 //-----------------------------------------------------------------------------
@@ -15,8 +19,12 @@ List::List()
 	:m_head(nullptr), m_size(0)
 {}
 //-----------------------------------------------------------------------------
+<<<<<<< HEAD
 //insert a Rational value to the list
 void List::insert(const Rational r, const int power)
+=======
+void List::insert(const Rational& r, const int power)
+>>>>>>> 673013b522efc255a2a211ec246c8bb3802a0d71
 {
 	if (m_head == nullptr)
 		m_head = new Node(r, power, nullptr);
@@ -66,6 +74,7 @@ bool List::isPowerInList(const int power) const
 	}
 	return false;
 }
+<<<<<<< HEAD
 
 //-----------------------------------------------------------------------------
 //checks if a given Rational is in the List
@@ -83,6 +92,10 @@ bool List::isRationalInList(const Rational r) const
 //-----------------------------------------------------------------------------
 //returns the Rational of a given Power
 Rational List::getRational(int power) const
+=======
+//-----------------------------------------------------------------------------
+Rational List::getRational(const int power) const
+>>>>>>> 673013b522efc255a2a211ec246c8bb3802a0d71
 {
 	if (isPowerInList(power))
 	{
@@ -98,6 +111,7 @@ Rational List::getRational(int power) const
 }
 
 //-----------------------------------------------------------------------------
+<<<<<<< HEAD
 //returns the Power of a given Rational
 int List::getPower(Rational r) const
 {
@@ -113,6 +127,8 @@ int List::getPower(Rational r) const
 
 //-----------------------------------------------------------------------------
 //returns the degree of the Poly
+=======
+>>>>>>> 673013b522efc255a2a211ec246c8bb3802a0d71
 int List::getPowerHead() const
 {
 	return m_head->m_power;

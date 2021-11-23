@@ -15,20 +15,19 @@ class Poly
 public:
 	Poly();
 	Poly(const std::vector<Rational>&);
-	Poly(const Rational scalar);
-	Poly(const Rational scalar, int power);
+	Poly(const Rational& scalar);
+	Poly(const Rational& scalar, const int power);
 	Poly(const Poly& polynom);
 	Poly& operator=(const Poly& polinom);
+	Rational operator[](const int power) const;
+	Rational& operator()(const Rational& r);
+	
 	int getDeg() const;
 	Rational getRational(const int power) const;
-	bool isPowerInList(const int index) const;
-	bool isRationalInList(const Rational r) const;
+	bool isPowerInList(const int power) const;
 	bool isLastNode(const int power) const;
 	unsigned int getSize() const;
-	int getPower(const Rational r) const;
-	Rational operator[](int power);
-	Rational operator()(Rational r);
-
+	~Poly();
 private:
 	List m_list;
 	unsigned int m_size;
@@ -41,4 +40,11 @@ bool operator<(const Poly& p1, const Poly& p2);
 bool operator<=(const Poly& p1, const Poly& p2);
 bool operator>(const Poly& p1, const Poly& p2);
 bool operator>=(const Poly& p1, const Poly& p2);
-
+Poly operator+(const Poly& poly1, const Poly& poly2);
+Poly operator-(const Poly& poly1, const Poly& poly2);
+Poly operator*(const Poly& poly1, const Poly& poly2);
+Poly operator*(const Poly& poly1, const int& scalar);
+Poly operator*(const int& scalar, const Poly& poly1);
+Poly& operator+=(Poly& poly1, const Poly& poly2);
+Poly& operator-=(Poly& poly1, const Poly& poly2);
+Poly& operator*=(Poly& poly1, const Poly& poly2);

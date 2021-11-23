@@ -3,8 +3,12 @@
 
 
 //-----------------------------------------------------------------------------
+<<<<<<< HEAD
 //Rational constructor 
 Rational::Rational(int numerator, int denumerator)
+=======
+Rational::Rational(const int numerator, const int denumerator)
+>>>>>>> 673013b522efc255a2a211ec246c8bb3802a0d71
 	:m_numerator(numerator), m_denumerator(denumerator)
 {
 	setRational(numerator, denumerator);
@@ -37,18 +41,23 @@ int Rational::get_denumerator() const
 	return m_denumerator;
 }
 //-----------------------------------------------------------------------------
+<<<<<<< HEAD
 //set Rational values (also changes numerator to be negative instead of denumerator
 void Rational::setRational(int numerator, int denumerator)
+=======
+void Rational::setRational(const int numerator, const int denumerator)
+>>>>>>> 673013b522efc255a2a211ec246c8bb3802a0d71
 {
+	m_numerator = (denumerator == 0) ? 0 : numerator;
+	m_denumerator = (denumerator == 0) ? 1 : denumerator;
+
 	if ((numerator > 0 && denumerator < 0) ||
 		(numerator < 0 && denumerator < 0))
 	{
-		numerator *= -1;
-		denumerator *= -1;
+		m_numerator = numerator * -1;
+		m_denumerator = denumerator * -1;
 	}
-
-	m_numerator  = (denumerator == 0) ? 0 : numerator;
-	m_denumerator  = (denumerator == 0) ? 1 : denumerator;
+			
 	minimize();
 }
 //-----------------------------------------------------------------------------
@@ -170,7 +179,7 @@ Rational operator+(const Rational& r)
 //operator ++ (r1-> r1 + 1)
 Rational operator++(Rational& r, int)
 {
-	Rational r1(1, 1);
+	Rational r1(1);
 	return r += r1;
 }
 
@@ -178,7 +187,7 @@ Rational operator++(Rational& r, int)
 //operator -- (r1-> r1 - 1)
 Rational operator--(Rational& r, int)
 {
-	Rational r1(1, 1);
+	Rational r1(1);
 	return r -= r1;
 }
 
