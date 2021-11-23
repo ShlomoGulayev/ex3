@@ -39,12 +39,26 @@ Poly::Poly(const Poly& polynom)
 	:m_list(polynom.m_list), m_size(polynom.m_size)
 {}
 //-----------------------------------------------------------------------------
+Poly& Poly::operator=(const Poly& polynom)
+{
+	if (this == &polynom)
+		return *this;
+	m_list.~List();
+
+	for (int i = polynom.getDeg(); i >= -1; i--)
+	{
+		if (polynom.isPowerInList(i))
+			m_list.insert(polynom.getRational(i), i);
+	}
+	m_size = polynom.m_size;
+}
+//-----------------------------------------------------------------------------
 unsigned int Poly::getSize() const
 {
 	return m_size;
 }
 //-----------------------------------------------------------------------------
-int Poly::getPowerHead() const
+int Poly::getDeg() const
 {
 	return m_list.getPowerHead();
 }
@@ -66,7 +80,7 @@ bool Poly::isLastNode(const int power) const
 //-----------------------------------------------------------------------------
 ostream& operator<<(ostream& os, const Poly& poly)
 {
-	for (int i = poly.getPowerHead(); i >= -1; i--)
+	for (int i = poly.getDeg(); i >= -1; i--)
 	{
 		if (poly.isPowerInList(i))
 		{
@@ -85,7 +99,7 @@ ostream& operator<<(ostream& os, const Poly& poly)
 
 bool operator==(const Poly& p1, const Poly& p2)
 {
-	if (p1.getPowerHead() == p2.getPowerHead())
+	if (p1.getDeg() == p2.getDeg())
 		return true;
 	return false;
 }

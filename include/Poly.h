@@ -19,7 +19,7 @@ public:
 	Poly(const Rational scalar, int power);
 	Poly(const Poly& polynom);
 	Poly& operator=(const Poly& polinom);
-	int getPowerHead() const;
+	int getDeg() const;
 	Rational getRational(const int power) const;
 	bool isPowerInList(const int index) const;
 	bool isLastNode(const int power) const;

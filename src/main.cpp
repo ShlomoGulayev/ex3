@@ -13,15 +13,11 @@ int main()
     Rational(17,2) };
     Poly p1(coeffes);
     cout << p1 << endl;
-    Poly p2(p1);
+    Poly p2 = p1;
+    
+    //p2 = p1;
     cout << p2 << endl;
-    // yes
-    if (p1 != p2)
-    {
-        cout << "YES" << endl;
-    }
 
-    //micha bot
 
     exit(EXIT_SUCCESS);
 }
