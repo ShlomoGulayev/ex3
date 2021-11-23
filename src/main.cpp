@@ -18,6 +18,5 @@ int main()
     //p2 = p1;
     cout << p2 << endl;
 
-
     exit(EXIT_SUCCESS);
 }

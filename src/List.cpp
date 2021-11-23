@@ -52,7 +52,7 @@ unsigned int List::getSize() const
 bool List::isPowerInList(const int power) const
 {
 	Node* tmp = m_head;
-	while (tmp != NULL && tmp->m_power >= power)
+	while (tmp != nullptr && tmp->m_power >= power)
 	{
 		if (tmp->m_power == power)
 			return true;
@@ -60,17 +60,50 @@ bool List::isPowerInList(const int power) const
 	}
 	return false;
 }
+
 //-----------------------------------------------------------------------------
-Rational List::getRational(int power) const
+bool List::isRationalInList(const Rational r) const
 {
 	Node* tmp = m_head;
-	while (tmp != NULL)
+	while (tmp != nullptr)
 	{
-		if (power == tmp->m_power)
-			return tmp->m_rational;
+		if (tmp->m_rational == r)
+			return true;
 		tmp = tmp->m_next;
 	}
+	return false;
 }
+//-----------------------------------------------------------------------------
+
+Rational List::getRational(int power) const
+{
+	if (isPowerInList(power))
+	{
+		Node* tmp = m_head;
+		while (tmp != nullptr)
+		{
+			if (power == tmp->m_power)
+				return tmp->m_rational;
+			tmp = tmp->m_next;
+		}
+	}
+	return Rational();
+}
+
+//-----------------------------------------------------------------------------
+
+int List::getPower(Rational r) const
+{
+	Node* tmp = m_head;
+	while (tmp != nullptr)
+	{
+		if (r == tmp->m_rational)
+			return tmp->m_power;
+		tmp = tmp->m_next;
+	}
+	return 0;
+}
+
 //-----------------------------------------------------------------------------
 int List::getPowerHead() const
 {
@@ -79,7 +112,7 @@ int List::getPowerHead() const
 //-----------------------------------------------------------------------------
 List::~List()
 {
-	while (m_head != NULL)
+	while (m_head != nullptr)
 	{
 		Node* tmp = m_head;
 		m_head = m_head->m_next;
@@ -90,9 +123,9 @@ List::~List()
 bool List::isLastNode(const int power) const
 {
 	Node* tmp = m_head;
-	while (tmp!= NULL && tmp->m_power >= power)
+	while (tmp!= nullptr && tmp->m_power >= power)
 	{
-		if (tmp->m_power == power && tmp->m_next == NULL)
+		if (tmp->m_power == power && tmp->m_next == nullptr)
 			return true;
 		tmp = tmp->m_next;
 	}

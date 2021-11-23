@@ -22,8 +22,12 @@ public:
 	int getDeg() const;
 	Rational getRational(const int power) const;
 	bool isPowerInList(const int index) const;
+	bool isRationalInList(const Rational r) const;
 	bool isLastNode(const int power) const;
 	unsigned int getSize() const;
+	int getPower(const Rational r) const;
+	Rational operator[](int power);
+	Rational operator()(Rational r);
 
 private:
 	List m_list;
@@ -33,4 +37,8 @@ private:
 ostream& operator<<(ostream& os, const Poly& poly);
 bool operator==(const Poly& p1, const Poly& p2);
 bool operator!=(const Poly& p1, const Poly& p2);
+bool operator<(const Poly& p1, const Poly& p2);
+bool operator<=(const Poly& p1, const Poly& p2);
+bool operator>(const Poly& p1, const Poly& p2);
+bool operator>=(const Poly& p1, const Poly& p2);
 
