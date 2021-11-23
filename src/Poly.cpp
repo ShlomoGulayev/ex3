@@ -10,24 +10,16 @@ Poly::Poly()
 	m_size = m_list.getSize();
 }
 //-----------------------------------------------------------------------------
-<<<<<<< HEAD
 //Poly constructor
-Poly::Poly(const Rational scalar)
-=======
 Poly::Poly(const Rational& scalar)
->>>>>>> 673013b522efc255a2a211ec246c8bb3802a0d71
 {
 	int power = (scalar == Rational()) ? -1 : 0;
 	m_list.insert(scalar, power);
 	m_size = m_list.getSize();
 }
 //-----------------------------------------------------------------------------
-<<<<<<< HEAD
 //Poly constructor
-Poly::Poly(const Rational scalar, int power)
-=======
 Poly::Poly(const Rational& scalar, const int power)
->>>>>>> 673013b522efc255a2a211ec246c8bb3802a0d71
 {
 	m_list.insert(scalar, power);
 	m_size = m_list.getSize();
@@ -87,33 +79,13 @@ int Poly::getDeg() const
 	return m_list.getRational(power);
 }
 //-----------------------------------------------------------------------------
-<<<<<<< HEAD
- //returns the Power of a given Rational
-int Poly::getPower(const Rational r) const
-{
-	return m_list.getPower(r);
-}
-
-//-----------------------------------------------------------------------------
-//checks if a given Power is in the List
-bool Poly::isPowerInList(const int index) const
-{
-	return m_list.isPowerInList(index);
-}
-
-//-----------------------------------------------------------------------------
-//checks if a given Rational is in the List
-bool Poly::isRationalInList(const Rational r) const
-{
-	return m_list.isRationalInList(r);
-=======
+//returns if a given power is in the list
 bool Poly::isPowerInList(const int power) const
 {
 	return m_list.isPowerInList(power);
->>>>>>> 673013b522efc255a2a211ec246c8bb3802a0d71
 }
 //-----------------------------------------------------------------------------
-//checks if a Node of a given Power is the last
+//checks if a given Node is the last (using a Power)
 bool Poly::isLastNode(const int power) const
 {
 	return m_list.isLastNode(power);
@@ -190,13 +162,8 @@ bool operator>=(const Poly& p1, const Poly& p2)
 }
 
 //-----------------------------------------------------------------------------
-<<<<<<< HEAD
-//operator [] (returns the Rational of a given Power)
-Rational Poly::operator[](int power)
-=======
-
+//operator [] (returns a Rational of a given Power)
 Rational Poly::operator[](const int power) const
->>>>>>> 673013b522efc255a2a211ec246c8bb3802a0d71
 {
 	if (m_list.isPowerInList(power))
 	{
@@ -205,11 +172,8 @@ Rational Poly::operator[](const int power) const
 	return Rational();
 }
 
-<<<<<<< HEAD
 //-----------------------------------------------------------------------------
-=======
-//-----------------------------------------------------------------------------
-
+//operator () (calculates the result if we set X)
 Rational& Poly::operator()(const Rational& r)
 {
 	int degree = m_list.getPowerHead();
@@ -234,6 +198,7 @@ Rational& Poly::operator()(const Rational& r)
 }
 
 //-----------------------------------------------------------------------------
+//operator + (p1 + p2)
 Poly operator+(const Poly& poly1, const Poly& poly2)
 {
 	std::vector<Rational> vec;
@@ -256,6 +221,7 @@ Poly operator+(const Poly& poly1, const Poly& poly2)
 	return Poly(vec);
 }
 //-----------------------------------------------------------------------------
+//operator - (p1 - p2)
 Poly operator-(const Poly& poly1, const Poly& poly2)
 {
 	Poly tmp(poly2 * -1);
@@ -263,6 +229,7 @@ Poly operator-(const Poly& poly1, const Poly& poly2)
 }
 
 //-----------------------------------------------------------------------------
+//operator * (p1 * p2)
 Poly operator*(const Poly& poly1, const Poly& poly2)
 {
 	int biggest_degree = poly1.getDeg() + poly2.getDeg();
@@ -290,30 +257,34 @@ Poly operator*(const Poly& poly1, const Poly& poly2)
 	return Poly(vec);
 }
 //-----------------------------------------------------------------------------
+//operator * (p1 * Scalar)
 Poly operator*(const Poly& poly1, const int& scalar)
 {
 	Poly poly2(scalar);
 	return poly1 * poly2;
 }
 //-----------------------------------------------------------------------------
+//operator * (Scalar + p1)
 Poly operator*(const int& scalar, const Poly& poly1)
 {
 	Poly poly2(scalar);
 	return poly1 * poly2;
 }
 //-----------------------------------------------------------------------------
+//operator += (p1 += p2)
 Poly& operator+=(Poly& poly1, const Poly& poly2)
 {
 	return poly1 = poly1 + poly2;
 }
 //-----------------------------------------------------------------------------
+//operator -= (p1 -= p2)
 Poly& operator-=(Poly& poly1, const Poly& poly2)
 {
 	return poly1 = poly1 - poly2;
 }
 //-----------------------------------------------------------------------------
+//operator -= (p1 -= p2)
 Poly& operator*=(Poly& poly1, const Poly& poly2)
 {
 	return poly1 = poly1 * poly2;
 }
->>>>>>> 673013b522efc255a2a211ec246c8bb3802a0d71
