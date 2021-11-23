@@ -28,7 +28,7 @@ Poly::Poly(const Rational& scalar, const int power)
 //Poly constructor
 Poly::Poly(const std::vector<Rational>& vec)
 {
-	int power = vec.size() - 1;
+	int power = (int)vec.size() - 1;
 	for (int i = 0; i < vec.size() ; i++)
 	{
 		if (vec[i].get_numerator() != 0)
@@ -37,7 +37,7 @@ Poly::Poly(const std::vector<Rational>& vec)
 	}
 	if (m_list.getSize() == 0)
 		m_list.insert(0, -1);
-	m_size = vec.size();
+	m_size =(unsigned int)vec.size();
 }
 //-----------------------------------------------------------------------------
 //Poly constructor
@@ -59,6 +59,12 @@ Poly& Poly::operator=(const Poly& polynom)
 	}
 	m_size = polynom.m_size;
 	return *this;
+}
+//-----------------------------------------------------------------------------
+void Poly::insert(const Rational& r, const int power)
+{
+	m_list.insert(r, power);
+	m_size = m_list.getSize();
 }
 //-----------------------------------------------------------------------------
 //returns the size of the lists
@@ -201,24 +207,23 @@ Rational& Poly::operator()(const Rational& r)
 //operator + (p1 + p2)
 Poly operator+(const Poly& poly1, const Poly& poly2)
 {
-	std::vector<Rational> vec;
+	Poly tmp;
 	int degree = (poly1.getDeg() > poly2.getDeg()) ? poly1.getDeg() : poly2.getDeg();
 	while (degree >= 0)
 	{
 		if (poly1.isPowerInList(degree) && poly2.isPowerInList(degree))
 		{
 			Rational r = poly1[degree] + poly2[degree];
-			vec.push_back(r);
+			if(r != 0)
+				tmp.insert(r, degree);
 		}
 		else if (poly1.isPowerInList(degree))
-			vec.push_back(poly1[degree]);
+			tmp.insert(poly1[degree], degree);
 		else if (poly2.isPowerInList(degree))
-			vec.push_back(poly2[degree]);
-		else 
-			vec.push_back(Rational());
+			tmp.insert(poly2[degree], degree);
 		degree--;
 	}
-	return Poly(vec);
+	return tmp;
 }
 //-----------------------------------------------------------------------------
 //operator - (p1 - p2)
@@ -232,10 +237,8 @@ Poly operator-(const Poly& poly1, const Poly& poly2)
 //operator * (p1 * p2)
 Poly operator*(const Poly& poly1, const Poly& poly2)
 {
-	int biggest_degree = poly1.getDeg() + poly2.getDeg();
+	Poly tmp;
 	int degree_1 = poly1.getDeg();
-	std::vector<Rational> vec;
-	vec.resize(biggest_degree+1);
 	
 	while (degree_1 >= 0)
 	{
@@ -246,15 +249,16 @@ Poly operator*(const Poly& poly1, const Poly& poly2)
 			{
 				if (poly2.isPowerInList(degree_2))
 				{
-					int index = biggest_degree - (degree_1 + degree_2);
-					vec[index] += poly1[degree_1] * poly2[degree_2];
+					Rational r = poly1[degree_1] * poly2[degree_2];
+					if(r != 0)
+						tmp.insert(r, degree_1 + degree_2);
 				}
 				degree_2--;
 			}
 		}
 		degree_1--;
 	}
-	return Poly(vec);
+	return tmp;
 }
 //-----------------------------------------------------------------------------
 //operator * (p1 * Scalar)

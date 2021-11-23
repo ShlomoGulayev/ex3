@@ -18,18 +18,45 @@ List::List()
 //insert Nodes to the list
 void List::insert(const Rational& r, const int power)
 {
-	if (m_head == nullptr)
+	if (m_head == nullptr) //if its the first Node
+	{
 		m_head = new Node(r, power, nullptr);
-	else
+		m_size++;
+	}
+	else if(m_head->m_power == -1) //head was 0 and we add a new monom
 	{
 		Node* tmp = m_head;
-		while (tmp->m_next != nullptr)
+		delete tmp;
+		m_head = new Node(r, power, nullptr);
+	}
+	else if (isPowerInList(power)) //if the power is in list already
+	{
+		Node* tmp = m_head;
+		while (tmp->m_power != power)
 		{
 			tmp = tmp->m_next;
 		}
-		tmp->m_next = new Node(r, power, nullptr);
+		tmp->m_rational += r;
 	}
-	m_size++;
+	else // if its a new power
+	{
+		Node* tmp = m_head, *prev = m_head;
+		bool first_time = true;
+		while (tmp->m_next != nullptr && tmp->m_power > power)
+		{
+			tmp = tmp->m_next;
+			if (first_time)
+				first_time = false;
+			else
+				prev = prev->m_next;
+		}
+		if(tmp->m_next == nullptr)
+			tmp->m_next = new Node(r, power, nullptr);
+		else
+			prev->m_next = new Node(r, power, tmp->m_next);
+		m_size++;
+	}
+	
 }
 //-----------------------------------------------------------------------------
 //List copy constructor

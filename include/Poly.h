@@ -22,12 +22,12 @@ public:
 	Rational operator[](const int power) const;
 	Rational& operator()(const Rational& r);
 	
+	void insert(const Rational& r, const int power);
 	int getDeg() const;
 	Rational getRational(const int power) const;
 	bool isPowerInList(const int power) const;
 	bool isLastNode(const int power) const;
 	unsigned int getSize() const;
-	~Poly();
 private:
 	List m_list;
 	unsigned int m_size;
