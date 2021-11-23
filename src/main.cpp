@@ -15,6 +15,7 @@ int main()
     cout << p1 << endl;
     Poly p2(p1);
     cout << p2 << endl;
+    // yes
     if (p1 != p2)
     {
         cout << "YES" << endl;
