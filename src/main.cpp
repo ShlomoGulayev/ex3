@@ -20,5 +20,7 @@ int main()
         cout << "YES" << endl;
     }
 
+    //micha bot
+
     exit(EXIT_SUCCESS);
 }
