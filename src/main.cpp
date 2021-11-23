@@ -21,6 +21,8 @@ int main()
         cout << "YES" << endl;
     }
 
+    cout << p2(Rational(5, 1)) << endl;
+
     //micha bot
 
     exit(EXIT_SUCCESS);

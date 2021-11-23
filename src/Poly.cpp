@@ -54,9 +54,22 @@ int Poly::getPowerHead() const
 	return m_list.getRational(power);
 }
 //-----------------------------------------------------------------------------
+
+int Poly::getPower(const Rational r) const
+{
+	return m_list.getPower(r);
+}
+
+//-----------------------------------------------------------------------------
 bool Poly::isPowerInList(const int index) const
 {
 	return m_list.isPowerInList(index);
+}
+
+//-----------------------------------------------------------------------------
+bool Poly::isRationalInList(const Rational r) const
+{
+	return m_list.isRationalInList(r);
 }
 //-----------------------------------------------------------------------------
 bool Poly::isLastNode(const int power) const
@@ -96,3 +109,63 @@ bool operator!=(const Poly& p1, const Poly& p2)
 {
 	return !(p1 == p2);
 }
+
+//-----------------------------------------------------------------------------
+
+bool operator<(const Poly& p1, const Poly& p2)
+{
+	if (p1.getPowerHead() < p2.getPowerHead())
+		return true;
+	return false;
+}
+
+//-----------------------------------------------------------------------------
+
+bool operator<=(const Poly& p1, const Poly& p2)
+{
+	if (p1 < p2 || p1 == p2)
+		return true;
+	return false;
+}
+
+//-----------------------------------------------------------------------------
+
+bool operator>(const Poly& p1, const Poly& p2)
+{
+	if (!(p1 <= p2))
+		return true;
+	return false;
+}
+
+//-----------------------------------------------------------------------------
+
+bool operator>=(const Poly& p1, const Poly& p2)
+{
+	if (!(p1 < p2))
+		return true;
+	return false;
+}
+
+//-----------------------------------------------------------------------------
+
+Rational Poly::operator[](int power)
+{
+	if (m_list.isPowerInList(power))
+	{
+		return m_list.getRational(power);
+	}
+	return Rational();
+}
+
+//-----------------------------------------------------------------------------
+
+Rational Poly::operator()(Rational r)
+{
+	if (m_list.isRationalInList(r))
+	{
+		return m_list.getPower(r);
+	}
+	return 0;
+}
+
+//-----------------------------------------------------------------------------
